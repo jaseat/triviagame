@@ -1,0 +1,14 @@
+.question .answer{
+    margin-bottom: 4px;
+}
+
+.answer, .start{
+    /* width: auto; */
+    box-sizing: border-box;
+}
+
+.answer:hover, .start:hover{
+    border: 1px solid black;
+    cursor: pointer;
+}
+
