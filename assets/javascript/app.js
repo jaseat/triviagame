@@ -20,8 +20,8 @@ var KEY = Object.freeze({
     SELECT: 0x2
 })
 
-const DISPLAY_TIME = 2;
-const WAIT_TIME = 2;
+const DISPLAY_TIME = 5;
+const WAIT_TIME = 5;
 
 var game = {
     questions: [],
@@ -77,12 +77,12 @@ var game = {
                 }
                 break;
         }
-        console.log(this.state);
     },
 
     timeout: function(){
         clearInterval(this.timer);
         $("#display").html("Timeout");
+        $("#display").append("<p>Correct Answer: "+this.questions[this.currentQuestion].a[this.questions[this.currentQuestion].c]+"</p>");
         this.unanswered++;
         this.time = WAIT_TIME;
         this.timer = setInterval(()=>{this.timerCallback()}, 1000);
@@ -104,7 +104,7 @@ var game = {
         });
         $("#display").append(q);
         
-        //this.timer = setInterval(()=>{this.timerCallback()}, 1000);
+        this.timer = setInterval(()=>{this.timerCallback()}, 1000);
     },
     over: function(){
         clearInterval(this.timer);
@@ -132,6 +132,8 @@ var game = {
         else{
             this.incorrect++;
             $("#display").html("Wrong!");
+            $("#display").append("<p>Correct Answer: "+this.questions[this.currentQuestion].a[this.questions[this.currentQuestion].c]+"</p>");
+
         }
         this.time = WAIT_TIME;
         this.timer = setInterval(()=>{this.timerCallback()}, 1000);
@@ -141,41 +143,43 @@ var game = {
 function parseQuestions(q){
     var qArray = [];
     q.forEach(element =>{
-        if(element.type === "multiple"){
-            console.log(element.incorrect_answers);
+        // if(element.type === "multiple")
+        {
             var qst = element.question;
             //get the number of answers
             var length = element.incorrect_answers.length + 1;
             //randomly choose a position to store the correct answer
             var random = Math.floor(Math.random() * length);
             var a = element.incorrect_answers;
-            console.log(a);
             a.splice(random, 0, element.correct_answer);
-            console.log(a);
             qArray.push(new Question(qst, a, random));
         }
     })
-    console.log(qArray);
     return qArray;
 }
-var questions = [];
 
 $(document).ready(function(){
-    var q1, q2, q3;
-    
-    q1 = new Question("Q1", ["A1", "A2", "A3", "A4"], 0);
-    q2 = new Question("Q2", ["A1", "A2", "A3", "A4"], 1);
-    q3 = new Question("Q3", ["A1", "A2", "A3", "A4"], 2);
-    game.questions.push(q1);
-    game.questions.push(q2);
-    game.questions.push(q3);
+    var API_URL = "https://opentdb.com/api.php?amount=10"
     $(document).on("click", ".answer", game.click);
     $(document).on("click", ".start", ()=>{
-        game.begin();
+        $.ajax({
+            url: API_URL
+        }).then(function(res){
+            if(res.response_code === 0){
+                game.questions = parseQuestions(res.results);
+                game.begin();
+            }
+            else{
+                alert("ERROR: API FAILED")
+            }
+        })
+    })
+    $(document).on("click", ".next", ()=>{
+        game.update(KEY.TIMEOUT);
     })
 
     $.ajax({
-        url: "https://opentdb.com/api.php?amount=10"
+        url: API_URL
     }).then(function(res){
         if(res.response_code === 0){
             game.questions = parseQuestions(res.results);

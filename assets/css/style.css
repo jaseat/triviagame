@@ -1,14 +1,29 @@
+#container{
+    width: 50%;
+    height: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#display{
+    text-align: center;
+}
+
 .question .answer{
     margin-bottom: 4px;
 }
 
-.answer, .start{
-    /* width: auto; */
+.answer, .start, .next{
     box-sizing: border-box;
 }
 
-.answer:hover, .start:hover{
+.answer:hover, .start:hover, .next:hover{
     border: 1px solid black;
     cursor: pointer;
 }
 
+.next{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
