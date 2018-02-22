@@ -92,17 +92,19 @@ var game = {
         $("#display").empty();
         this.time = DISPLAY_TIME;
         $("#time").html(this.time);
+        var newDiv = $("<div>");
         var q = $("<div>");
         q.addClass("question");
         q.html(this.questions[this.currentQuestion].q);
+        newDiv.append(q);
         this.questions[this.currentQuestion].a.forEach((element, index) => {
             var a = $("<div>");
             a.html(element);
             a.attr("num", index);
             a.addClass("answer");
-            q.append(a);
+            newDiv.append(a);
         });
-        $("#display").append(q);
+        $("#display").append(newDiv);
         
         this.timer = setInterval(()=>{this.timerCallback()}, 1000);
     },
