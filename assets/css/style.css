@@ -4,15 +4,17 @@
 }
 
 html, body{
+    margin: 0;
+    height: 100%;
     font-family: chalk-font;
     background-image: url(../images/school.png);
     min-width: 800px;
     position: relative;
-    overflow: auto;
 }
 
 #body-container{
     height: auto;
+    min-height: 100%;
     min-width: 800px;
     position: relative;
     overflow: auto;
