@@ -1,12 +1,34 @@
+@font-face {
+    font-family: chalk-font;
+    src: url(../fonts/KGSecondChancesSketch.ttf);
+}
+
+html, body{
+    height: 90%;
+    font-family: chalk-font;
+    background-image: url(../images/school.png);
+}
+
+
 #container{
-    width: 50%;
-    height: 360px;
+    width: 80%;
+    height: 480px;
     margin: 0 auto;
     position: relative;
+    overflow: auto;
+    border: 6px solid rgb(146, 70, 35);
+    padding: 8px;
+    background-color: rgb(1, 59, 1);
+    color: rgb(241, 241, 241);
 }
 
 #display{
     text-align: center;
+    font-size: 32px;
+}
+
+#display p{
+    font-size: 16px;
 }
 
 .question .answer{
@@ -18,18 +40,80 @@
 }
 
 .answer:hover, .start:hover, .next:hover{
-    border: 1px solid black;
     cursor: pointer;
+}
+
+.answer:hover{
+    border: 1px solid green;
 }
 
 .next{
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 6px;
+    right: 4px;
 }
 
 .time{
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: 6px;
+    left: 4px;
+}
+
+#drawing{
+    height: 80px;
+    position: absolute;
+    bottom: 30px;
+    right: 60px;
+    opacity: 0.5;
+}
+
+.question{
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.answer{
+    margin-bottom: 32px;
+    font-size: 32px;
+    width: 46%;
+    border: 1px solid white;
+}
+
+.answer:nth-of-type(2n){
+    float: left;
+    clear: left;
+    margin-left: 8px;
+}
+
+.answer:nth-of-type(2n-1){
+    float: right;
+    clear: right;
+    margin-right: 8px;
+}
+
+@media screen and (max-width:964px){
+    .answer:nth-of-type(n){
+        float: none;
+        margin: 20px auto;
+    }
+    .answer{
+        width: 80%;
+    }
+    #container{
+        height: 800px;
+        min-width: 360px;
+    }
+}
+
+#footer{
+    position: fixed;
+    bottom: 16px;
+    right: 12px;
+}
+
+#attribution{
+    position: fixed;
+    bottom: 16px;
+    left: 12px;
 }

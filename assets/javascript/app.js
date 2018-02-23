@@ -1,3 +1,18 @@
+var chalk = ["assets/images/chalk/01.png",
+            "assets/images/chalk/02.png",
+            "assets/images/chalk/03.png",
+            "assets/images/chalk/04.png",
+            "assets/images/chalk/05.png",
+            "assets/images/chalk/06.png",
+            "assets/images/chalk/07.png",
+            "assets/images/chalk/08.png",
+            "assets/images/chalk/09.png",
+            "assets/images/chalk/10.png",
+            "assets/images/chalk/11.png",
+            "assets/images/chalk/12.png",
+            "assets/images/chalk/13.png",
+            "assets/images/chalk/14.png"];
+
 //object to hold question and answers
 var Question = function(q, a, c){
     //question
@@ -20,7 +35,7 @@ var KEY = Object.freeze({
     SELECT: 0x2
 })
 
-const DISPLAY_TIME = 5;
+const DISPLAY_TIME = 30;
 const WAIT_TIME = 5;
 
 var game = {
@@ -85,6 +100,7 @@ var game = {
         $("#display").append("<p>Correct Answer: "+this.questions[this.currentQuestion].a[this.questions[this.currentQuestion].c]+"</p>");
         this.unanswered++;
         this.time = WAIT_TIME;
+        $("#time").html(this.time);
         this.timer = setInterval(()=>{this.timerCallback()}, 1000);
     }, 
     displayQuestions: function(){
@@ -105,6 +121,7 @@ var game = {
             newDiv.append(a);
         });
         $("#display").append(newDiv);
+        $("#drawing").attr("src", chalk[Math.floor(Math.random()*chalk.length)]);
         
         this.timer = setInterval(()=>{this.timerCallback()}, 1000);
     },
@@ -138,6 +155,7 @@ var game = {
 
         }
         this.time = WAIT_TIME;
+        $("#time").html(this.time);
         this.timer = setInterval(()=>{this.timerCallback()}, 1000);
     }
 }
@@ -145,16 +163,28 @@ var game = {
 function parseQuestions(q){
     var qArray = [];
     q.forEach(element =>{
-        // if(element.type === "multiple")
+        var qst = element.question;
+        var a;
+        if(element.type === "multiple")
         {
-            var qst = element.question;
             //get the number of answers
             var length = element.incorrect_answers.length + 1;
             //randomly choose a position to store the correct answer
             var random = Math.floor(Math.random() * length);
-            var a = element.incorrect_answers;
+            a = element.incorrect_answers;
             a.splice(random, 0, element.correct_answer);
             qArray.push(new Question(qst, a, random));
+        }
+        else{
+            a = ["True", "False"];
+            var c;
+            if(element.correct_answer === "True"){
+                c = 0;
+            }
+            else{
+                c = 1;
+            }
+            qArray.push(new Question(qst, a, c));
         }
     })
     return qArray;
@@ -180,17 +210,8 @@ $(document).ready(function(){
         game.update(KEY.TIMEOUT);
     })
 
-    $.ajax({
-        url: API_URL
-    }).then(function(res){
-        if(res.response_code === 0){
-            game.questions = parseQuestions(res.results);
-            game.begin();
-        }
-        else{
-            alert("ERROR: API FAILED")
-        }
-    })
-
-    
+    var start = $("<div>");
+    start.html("Start Game");
+    start.addClass("start");
+    $("#display").append(start);
 });

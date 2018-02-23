@@ -7,7 +7,10 @@
             "label": "build",
             "type": "process",
             "command": "explorer",
-            "args": ["${file}"]
+            "args": [
+                "${file}"
+            ],
+            "problemMatcher": []
         }
     ]
 }
