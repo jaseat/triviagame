@@ -4,9 +4,18 @@
 }
 
 html, body{
-    height: 90%;
     font-family: chalk-font;
     background-image: url(../images/school.png);
+    min-width: 800px;
+    position: relative;
+    overflow: auto;
+}
+
+#body-container{
+    height: auto;
+    min-width: 800px;
+    position: relative;
+    overflow: auto;
 }
 
 
@@ -20,6 +29,7 @@ html, body{
     padding: 8px;
     background-color: rgb(1, 59, 1);
     color: rgb(241, 241, 241);
+    margin-bottom: 60px;
 }
 
 #display{
@@ -101,19 +111,19 @@ html, body{
         width: 80%;
     }
     #container{
-        height: 800px;
+        height: 760px;
         min-width: 360px;
     }
 }
 
 #footer{
-    position: fixed;
+    position: absolute;
     bottom: 16px;
     right: 12px;
 }
 
 #attribution{
-    position: fixed;
+    position: absolute;
     bottom: 16px;
     left: 12px;
 }
